@@ -1,4 +1,5 @@
 import axios from 'axios';
+import './Home.css';
 import React, { useState, useEffect } from 'react';
 
 const Home = () => {
@@ -11,7 +12,7 @@ const Home = () => {
     const [searchLookup, setSearchLookup] = useState('');
     const [submitted, setSubmitted] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [songsList, setSongsList] = useState();
 
     useEffect(() => {
@@ -21,9 +22,7 @@ const Home = () => {
             axios.get('https://api.getsongbpm.com/search/?api_key='+apiKey+'&type='+searchType+'&lookup='+searchLookup).then(res => {
                 setIsLoading(false);
                 console.log(res.data);
-                if(searchType==='song') {
-                    setData(res.data.search);
-                }
+                setData(res.data.search);
             }).catch(error => {
                 console.log(error);
                 setIsLoading(false);
@@ -37,7 +36,7 @@ const Home = () => {
         let artist = inputArtist.replace(/\s/g, '+');
         if(inputArtist && inputTitle) {
             setSearchType('both');
-            setSearchLookup('song:'+title+'artist:'+artist);
+            setSearchLookup('song:'+title+'+artist:'+artist);
         } else if(inputArtist && !inputTitle) {
             setSearchType('artist');
             setSearchLookup(artist);
@@ -49,10 +48,19 @@ const Home = () => {
     }
 
     useEffect(() => {
-        setSongsList(data.map((songData) => 
-            <li key={songData.id} className="song-title">
-                <div>{songData.title}</div>
-                <div>{songData.artist.name}</div>
+        setSongsList(data?.error ? "No data found" : data?.map((songData) => 
+            <li key={songData.id ? songData.id : songData.song_id} className="song-item">
+                <a className='link-to-song' href="">
+                    <div className="img-with-data">
+                    <img src={songData.album?.img} alt="" />
+                        <div className="title-artist">
+                            <p className='song-title'>{songData.title ? songData.title : songData.song_title}</p>
+                            <p className='song-artist'>{songData.name ? songData.name : songData.artist.name}</p>
+                        </div>
+                    </div>
+                    <p className="tempo">{songData.tempo ? songData.tempo : 'TODO'}</p>
+                    <p className="key">{songData.key_of ? songData.key_of : 'TODO'}</p>
+                </a>
             </li>
         ))
     },[data])
@@ -61,21 +69,15 @@ const Home = () => {
         <div className="Home">
             <div className="form">
                 <form onSubmit={handleSearch}>
-                    <label>
-                        Artist:
-                        <input type="text" name="artist" value={inputArtist} onChange={(e) => setInputArtist(e.target.value)}/>
-                    </label>
-                    <label>
-                        Title:
-                        <input type="text" name="title" value={inputTitle} onChange={(e) => setInputTitle(e.target.value)}/>
-                    </label>
-                    <input type="submit" value="Search" />
+                    <p>Artist</p>
+                    <input type="text" name="artist" value={inputArtist} onChange={(e) => setInputArtist(e.target.value)}/>
+                    <p>Title</p>
+                    <input type="text" name="title" value={inputTitle} onChange={(e) => setInputTitle(e.target.value)}/>
+                    <input className='submit-btn' type="submit" value="Search" />
                 </form>
             </div>
-            <div className="loading">{isLoading ? 'Loading...' : 
-                <div className="data">
-                    <ul>{songsList}</ul>
-                </div>}
+            <div className="output">{isLoading ? <p>Loading...</p> : 
+                <ul>{songsList}</ul>}
             </div>
         </div>
     );
