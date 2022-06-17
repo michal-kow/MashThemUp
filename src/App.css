@@ -6,7 +6,8 @@
 footer {
     max-width: 1200px;
     margin: auto;
-    position: absolute;
+    background-color: rgb(32, 32, 32);
+    position: fixed;
     bottom: 0;
     width: 100%;
     padding: 10px 0;

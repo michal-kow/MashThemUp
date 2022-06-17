@@ -17,9 +17,35 @@ body {
     background-color: rgb(32, 32, 32);
 }
 
+.log-btn {
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: rgb(44, 44, 44);
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: ease-in-out 200ms;
+    border: 1px solid var(--accent-clr);
+    color: var(--accent-clr);
+}
+
+.log-btn:hover {
+    background-color: var(--accent-clr);
+    color: rgb(44, 44, 44);
+    cursor: pointer; 
+}
+
+.search-key-empty {
+    font-size: 14px;
+}
+
 .form {
     padding: 20px 0;
     margin: 0 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .form form {
@@ -38,7 +64,6 @@ body {
 }
 
 .form input {
-    margin-right: 50px;
     background-color: rgb(44, 44, 44);
     border: 1px solid rgb(82, 82, 82);
     border-radius: 50px;
@@ -50,6 +75,11 @@ body {
 .form input:focus {
     outline: none;
     border-color: rgb(119, 119, 119);
+}
+
+.form .text-input {
+    margin-right: 50px;
+    min-width: 350px;
 }
 
 .form .submit-btn {
@@ -69,9 +99,11 @@ body {
 
 .output {
     margin: 0 40px;
+    margin-bottom: 50px;
 }
 
 .song-item {
+    min-height: 120px;
     background-color: rgb(58, 58, 58);
     margin: 10px 0px;
     padding: 15px 20px;
