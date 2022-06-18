@@ -15,8 +15,35 @@ const Home = () => {
     const [searchKey, setSearchKey] = useState("");
     const [tracks, setTracks] = useState([]);
     const [isSearchKeyEmpty, setIsSearchKeyEmpty] = useState(false);
-    const [Bpm, setBpm] = useState();
-    const [Key, setKey] = useState('');
+    const [tracksInfo, setTracksInfo] = useState([]);
+    const [isAfterFirstSearch, setIsAfterFirstSearch] = useState(false);
+
+    const pitchToCamelotDictionary = {
+        '01':'8B',
+		'11':'3B',
+		'21':'10B',
+		'31':'5B',
+		'41':'12B',
+		'51':'7B',
+		'61':'2B',
+		'71':'9B',
+		'81':'4B',
+		'91':'11B',
+		'101':'6B',
+		'111':'1B',
+		'00':'5A',
+		'10':'12A',
+		'20':'7A',
+		'30':'2A',
+		'40':'9A',
+		'50':'4A',
+		'60':'11A',
+		'70':'6A',
+		'80':'1A',
+		'90':'8A',
+		'100':'3A',
+		'110':'10A'
+    }
 
     useEffect(() => {
         const hash = window.location.hash
@@ -40,6 +67,7 @@ const Home = () => {
 
     const searchTracks = async (e) => {
         e.preventDefault();
+        setIsAfterFirstSearch(true);
         if(searchKey) {
             setIsLoading(true);
             setIsSearchKeyEmpty(false);
@@ -62,65 +90,101 @@ const Home = () => {
         }
     }
 
-    // const getBpm = async (id) => {
-    //     const {data} = await axios.get("https://api.spotify.com/v1/audio-features", {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-    //         },
-    //         params: {
-    //             ids: id,
-    //         }
-    //     }).catch((error) => {
-    //         console.log(error);
-    //     })
-    //     console.log(data);
-    //     // console.log('test');
-    //     // return Math.round(data[0]?.audio_features[0].tempo);
-    //     return 'dziala';
-    // }
+    const getBpm = async (preparedIds) => {
+        const {data} = await axios.get("https://api.spotify.com/v1/audio-features", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: {
+                ids: preparedIds,
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+        return data.audio_features;
+    }
+
+    useEffect(() => {
+        async function prepareTracks() {
+            const songIds = tracks.map(track => track.id).join(",");
+            const trackDataFromApi = await getBpm(songIds);
+            setTracksInfo(trackDataFromApi);
+        }
+        if(tracks.length) {
+            prepareTracks();
+        }
+    }, [tracks])
+
+    const renderBpm = (id) => {
+        if(tracksInfo.length) {
+            const found = tracksInfo.find(obj => {
+                return obj.id === id;
+            })
+            if(found) {
+                return Math.round(found.tempo);
+            }
+        }   
+    }
+
+    const renderKey = (id) => {
+        if(tracksInfo.length) {
+            const found = tracksInfo.find(obj => {
+                return obj.id === id;
+            })
+            if(found) {
+                return pitchToCamelot(found.key, found.mode);
+            }
+        }
+    }
+
+    const pitchToCamelot = (key, mode) => {
+        let input = String(key)+String(mode);
+        const camelot = pitchToCamelotDictionary[input];
+        return camelot;
+    }
+
+    const renderArtistsNames = (artists) => {
+        let names = '';
+        for (let i=0; i<artists.length; i++) {
+            names+=artists[i].name;
+            if(i!=artists.length-1) {
+                names+=', ';
+            }
+        }
+        return names;
+    }
 
     function renderTracks() {
-        return tracks?.map((track) => 
-            <li key={track.id} className="song-item">
-                <a className='link-to-song' href="">
-                    <div className="img-with-data">
-                    <img src={track.album.images[0].url} alt="" />
-                        <div className="title-artist">
-                            <p className='song-title'>{track.name}</p>
-                            <p className='song-artist'>{track.artists[0].name}</p>
-                            {/* TODO: add all artists' names */}
+        let result;
+        if (tracks.length) {
+            result = tracks.map((track) => 
+                <li key={track.id} className="song-item">
+                    <a className='link-to-song' href="">
+                        <div className="img-with-data">
+                        <img src={track.album.images[0].url} alt="" />
+                            <div className="title-artist">
+                                <p className='song-title'>{track.name}</p>
+                                <p className='song-artist'>{renderArtistsNames(track.artists)}</p>
+                            </div>
                         </div>
-                    </div>
-                    {/* <p className="tempo">{tempo}</p> */}
-                    {/* <p className="key">{songData.key_of ? songData.key_of : ''}</p> */}
-                </a>
-            </li>
-        )
+                        <p className="tempo">{renderBpm(track.id)}</p>
+                        <p className="key">{renderKey(track.id)}</p>
+                    </a>
+                </li>
+            )
+        } else {
+            if(!isSearchKeyEmpty && isAfterFirstSearch) {
+                result = "No data found";
+            }
+        }
 
-        // const promises = tracks?.map(async track => {
-        //     const response = await axios.get("https://api.spotify.com/v1/audio-features", {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`
-        //         },
-        //         params: {
-        //             ids: track.id,
-        //         }
-        //     }).catch((error) => {
-        //         console.log(error);
-        //     })
-        //     return response;
-        // })
-
-        // const results = await Promise.all(promises);
-        // console.log(results);
-
-        // return <div>test</div>;
+        return result;
     }
 
     useEffect(() => {
         let tempo;
         let key;
-        setSongsList(tracks?.error ? "No data found" : renderTracks)
+        setSongsList(tracks?.error ? "No data found" : renderTracks);
     }, [tracks])
 
     return (

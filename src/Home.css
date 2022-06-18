@@ -38,6 +38,7 @@ body {
 
 .search-key-empty {
     font-size: 14px;
+    margin-left: 20px;
 }
 
 .form {
@@ -46,6 +47,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .form form {
@@ -122,17 +124,14 @@ body {
 
 .song-item .link-to-song {
     text-decoration: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 8%;
+    display: grid;
+    grid-template-columns: 66% 17% 17%;
+    margin-right: 5%;
 }
 
 .song-item .link-to-song .img-with-data{
     display: flex;
     flex-direction: row;
-    /* justify-content: center; */
     align-items: center;
 }
 
@@ -147,6 +146,11 @@ body {
     display: block;
     font-size: 30px;
     font-weight: 500;
+}
+
+.key, .tempo {
+    justify-self: center;
+    align-self: center;
 }
 
 .song-item .song-artist {
