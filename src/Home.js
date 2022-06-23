@@ -1,6 +1,7 @@
 import axios from 'axios';
 import './Home.css';
 import React, { useState, useEffect } from 'react';
+import SongItem from './SongItem';
 
 const Home = () => {
 
@@ -17,33 +18,6 @@ const Home = () => {
     const [isSearchKeyEmpty, setIsSearchKeyEmpty] = useState(false);
     const [tracksInfo, setTracksInfo] = useState([]);
     const [isAfterFirstSearch, setIsAfterFirstSearch] = useState(false);
-
-    const pitchToCamelotDictionary = {
-        '01':'8B',
-		'11':'3B',
-		'21':'10B',
-		'31':'5B',
-		'41':'12B',
-		'51':'7B',
-		'61':'2B',
-		'71':'9B',
-		'81':'4B',
-		'91':'11B',
-		'101':'6B',
-		'111':'1B',
-		'00':'5A',
-		'10':'12A',
-		'20':'7A',
-		'30':'2A',
-		'40':'9A',
-		'50':'4A',
-		'60':'11A',
-		'70':'6A',
-		'80':'1A',
-		'90':'8A',
-		'100':'3A',
-		'110':'10A'
-    }
 
     useEffect(() => {
         const hash = window.location.hash
@@ -115,63 +89,10 @@ const Home = () => {
         }
     }, [tracks])
 
-    const renderBpm = (id) => {
-        if(tracksInfo.length) {
-            const found = tracksInfo.find(obj => {
-                return obj.id === id;
-            })
-            if(found) {
-                return Math.round(found.tempo);
-            }
-        }   
-    }
-
-    const renderKey = (id) => {
-        if(tracksInfo.length) {
-            const found = tracksInfo.find(obj => {
-                return obj.id === id;
-            })
-            if(found) {
-                return pitchToCamelot(found.key, found.mode);
-            }
-        }
-    }
-
-    const pitchToCamelot = (key, mode) => {
-        let input = String(key)+String(mode);
-        const camelot = pitchToCamelotDictionary[input];
-        return camelot;
-    }
-
-    const renderArtistsNames = (artists) => {
-        let names = '';
-        for (let i=0; i<artists.length; i++) {
-            names+=artists[i].name;
-            if(i!=artists.length-1) {
-                names+=', ';
-            }
-        }
-        return names;
-    }
-
     function renderTracks() {
         let result;
         if (tracks.length) {
-            result = tracks.map((track) => 
-                <li key={track.id} className="song-item">
-                    <a className='link-to-song' href="">
-                        <div className="img-with-data">
-                        <img src={track.album.images[0].url} alt="" />
-                            <div className="title-artist">
-                                <p className='song-title'>{track.name}</p>
-                                <p className='song-artist'>{renderArtistsNames(track.artists)}</p>
-                            </div>
-                        </div>
-                        <p className="tempo">{renderBpm(track.id)}</p>
-                        <p className="key">{renderKey(track.id)}</p>
-                    </a>
-                </li>
-            )
+            result = tracks.map((track) => <SongItem trackData={track} tracksArrayData={tracksInfo} />)
         } else {
             if(!isSearchKeyEmpty && isAfterFirstSearch) {
                 result = "No data found";
@@ -184,8 +105,8 @@ const Home = () => {
     useEffect(() => {
         let tempo;
         let key;
-        setSongsList(tracks?.error ? "No data found" : renderTracks);
-    }, [tracks])
+        setSongsList(tracks?.error ? "No data found" : (tracksInfo.length!==0 && renderTracks));
+    }, [tracks, tracksInfo])
 
     return (
         <div className="Home">

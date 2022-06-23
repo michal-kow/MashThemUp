@@ -104,14 +104,13 @@ body {
     margin-bottom: 50px;
 }
 
-.song-item {
+/* .song-item {
     min-height: 120px;
     background-color: rgb(58, 58, 58);
     margin: 10px 0px;
     padding: 15px 20px;
     border-radius: 8px;
     transition: ease-in-out 100ms;
-    /* width: 70%; */
 }
 
 .song-item:hover {
@@ -156,7 +155,7 @@ body {
 .song-item .song-artist {
     font-weight: 200;
     font-size: 22px;
-}
+} */
 
 ul {
     list-style: none;
