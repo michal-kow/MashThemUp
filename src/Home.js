@@ -18,6 +18,7 @@ const Home = () => {
     const [isSearchKeyEmpty, setIsSearchKeyEmpty] = useState(false);
     const [tracksInfo, setTracksInfo] = useState([]);
     const [isAfterFirstSearch, setIsAfterFirstSearch] = useState(false);
+    const [isArrayUpdated, setIsArrayUpdated] = useState(false);
 
     useEffect(() => {
         const hash = window.location.hash
@@ -64,7 +65,7 @@ const Home = () => {
         }
     }
 
-    const getBpm = async (preparedIds) => {
+    const getTracksFeatures = async (preparedIds) => {
         const {data} = await axios.get("https://api.spotify.com/v1/audio-features", {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -81,8 +82,9 @@ const Home = () => {
     useEffect(() => {
         async function prepareTracks() {
             const songIds = tracks.map(track => track.id).join(",");
-            const trackDataFromApi = await getBpm(songIds);
+            const trackDataFromApi = await getTracksFeatures(songIds);
             setTracksInfo(trackDataFromApi);
+            setIsArrayUpdated(true);
         }
         if(tracks.length) {
             prepareTracks();
@@ -91,14 +93,14 @@ const Home = () => {
 
     function renderTracks() {
         let result;
-        if (tracks.length) {
+        if (tracks.length && isArrayUpdated) {
             result = tracks.map((track) => <SongItem trackData={track} tracksArrayData={tracksInfo} />)
         } else {
             if(!isSearchKeyEmpty && isAfterFirstSearch) {
                 result = "No data found";
             }
         }
-
+        setIsArrayUpdated(false);
         return result;
     }
 

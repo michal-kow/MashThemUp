@@ -1,0 +1,7 @@
+.chosen-track {
+    margin: 40px 0;
+}
+
+.chosen-track .song-item {
+    outline: 2px solid var(--accent-clr);
+}

@@ -35,8 +35,7 @@ const SongItem = props => {
     }
 
     useEffect(() => {
-        if(props.tracksArrayData.length) {
-            console.log(props.tracksArrayData)
+        if (props.tracksArrayData && props.tracksArrayData.length) {
             let found;
             found = props.tracksArrayData.find(obj => {
                 return obj.id === props.trackData.id;
@@ -67,7 +66,7 @@ const SongItem = props => {
 
     return (
         <li key={props.trackData.id} className="song-item">
-            <a className='link-to-song' href="">
+            <a className='link-to-song' href={"/similar?id="+props.trackData.id}>
                 <div className="img-with-data">
                 <img src={props.trackData.album.images[0].url} alt="" />
                     <div className="title-artist">
@@ -75,8 +74,8 @@ const SongItem = props => {
                         <p className='song-artist'>{renderArtistsNames(props.trackData.artists)}</p>
                     </div>
                 </div>
-                <p className="tempo">{bpm ? bpm : 'loading...'}</p>
-                <p className="key">{key ? key : 'loading...'}</p>
+                <p className="tempo">{bpm ? bpm : ''}</p>
+                <p className="key">{key ? key : ''}</p>
             </a>
         </li>
     );
