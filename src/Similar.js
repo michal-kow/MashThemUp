@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import SongItem from "./SongItem";
 import axios from "axios";
 import './Similar.css';
+import SliderComponent from "./SliderComponent";
 
 const Similar = () => {
 
@@ -18,6 +19,7 @@ const Similar = () => {
     const [trackInfo, setTrackInfo] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [recommendedList, setRecommendedList] = useState([]);
+    const [filterValues, setFilterValues] = useState([]);
 
     useEffect(() => {
         const hash = window.location.hash
@@ -115,7 +117,7 @@ const Similar = () => {
         async function waitForRecommendations() {
             const recommendationsDataFromApi = await getRecommendations();
             const recommendedTracksInfoFromApi = await recommendedInfo(recommendationsDataFromApi);
-            const result = recommendationsDataFromApi.map((track) => <SongItem trackData={track} tracksArrayData={recommendedTracksInfoFromApi} />)
+            const result = recommendationsDataFromApi.map((track) => <SongItem key={track.id} trackData={track} tracksArrayData={recommendedTracksInfoFromApi} />)
             setRecommendedList(result);
         }
 
@@ -133,6 +135,10 @@ const Similar = () => {
     let query = useQuery();
     let songId = query.get("id");
 
+    const getSliderValues = (values) => {
+        console.log(values);
+    }
+
     return (
         <div className="Similar">
             <div className="button">
@@ -144,6 +150,19 @@ const Similar = () => {
             <div className="chosen-track">{token ? (isLoading ? <p>Loading...</p> : 
                 <SongItem trackData={track} tracksArrayData={trackInfo}/>) : 'Please log in'}
             </div>
+            {trackInfo && trackInfo.length && 
+                <div className="search-filters">
+                    <div className="slider">
+                        <SliderComponent targetBpm={trackInfo[0].tempo} sendData={getSliderValues}/>
+                    </div>
+                    <div className="keys">
+                        <button className="key-filter">{trackInfo[0].key}</button>
+                        <button className="key-filter"></button>
+                        <button className="key-filter"></button>
+                        <button className="key-filter"></button>
+                    </div>
+                    <button className="submit-btn">Find a mash-up!</button>
+                </div>}
             <div className="similar-found">
                 {recommendedList.length!==0 ? recommendedList : "Loading..."}
             </div>

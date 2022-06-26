@@ -1,0 +1,19 @@
+.MuiSlider-colorPrimary.MuiSlider-sizeMedium.MuiSlider-root.Slider.css-187mznn-MuiSlider-root {
+    width: 500px;
+}
+
+.MuiSlider-track.css-1gv0vcd-MuiSlider-track {
+    background-color: var(--accent-clr);
+    border: none;
+}
+
+.MuiSlider-valueLabelOpen.MuiSlider-valueLabel.css-17djbj3-MuiSlider-valueLabel {
+    border-radius: 10px;
+    padding: 4px 8px;
+    font-size: 18px;
+}
+
+span [data-index="1"] {
+    background-color: rgb(88, 88, 88);
+    outline: 2px solid var(--accent-clr);
+}
