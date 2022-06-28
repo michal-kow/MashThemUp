@@ -74,8 +74,14 @@ const SongItem = props => {
                         <p className='song-artist'>{renderArtistsNames(props.trackData.artists)}</p>
                     </div>
                 </div>
-                <p className="tempo">{bpm ? bpm : ''}</p>
-                <p className="key">{key ? key : ''}</p>
+                <div className="bpm-container">
+                    <p className="tempo">{bpm ? bpm : ''}</p>
+                    <p className='tempo-label'>BPM</p>
+                </div>
+                <div className="key-container">
+                    <p className="key">{key ? key : ''}</p>
+                    <p className='key-label'>key</p>
+                </div>
             </a>
         </li>
     );

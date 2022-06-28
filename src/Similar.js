@@ -19,7 +19,11 @@ const Similar = () => {
     const [trackInfo, setTrackInfo] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [recommendedList, setRecommendedList] = useState([]);
-    const [filterValues, setFilterValues] = useState([]);
+    const [bpmRange, setBpmRange] = useState([]);
+    const [filterSubmitted, setFilterSubmitted] = useState(0);
+    const [advancedFiltersVisible, setAdvancedFiltersVisible] = useState(false);
+    const [advancedFilters, setAdvancedFilters] = useState(Array(3).fill(""));
+    const [isRecommendedLoading, setIsRecommendedLoading] = useState(false);
 
     useEffect(() => {
         const hash = window.location.hash
@@ -83,22 +87,46 @@ const Similar = () => {
         }
     }, [track])
 
-    const getRecommendations = async () => {
+    const getRecommendations = async (keyChange, modeChange) => {
+
+        let keyShift;
+        let modeShift;
+
+        if (modeChange===0) {
+            modeShift=0;
+            if (keyChange===0) {
+                keyShift=0;
+            } else {
+                if (keyChange===1) {
+                    keyShift=7;
+                } else if (keyChange===-1) {
+                    keyShift=5;
+                }
+            }
+        } else if (modeChange===1) {
+            modeShift=1;
+            if (trackInfo[0].mode===0) {
+                keyShift=3;
+            } else if (trackInfo[0].mode===1) {
+                keyShift=9;
+            }
+        }
+
         const {data} = await axios.get("https://api.spotify.com/v1/recommendations", {
             headers: {
                 Authorization: `Bearer ${token}`
             },
             params: {
-                seed_artists: track.artists[0].id,
-                seed_genres: "dubstep",
-                seed_tracks: track.id,
+                seed_artists: advancedFilters[0]!=="" ? advancedFilters[0] : track.artists[0].id,
+                seed_genres: advancedFilters[1]!=="" ? advancedFilters[1] : "",
+                seed_tracks: advancedFilters[2]!=="" ? advancedFilters[2] : track.id,
                 limit: 50,
-                min_key: (trackInfo[0].key)%12,
-                max_key: (trackInfo[0].key)%12,
-                min_mode: (trackInfo[0].mode)%2,
-                max_mode: (trackInfo[0].mode)%2,
-                min_tempo: trackInfo[0].tempo-0.2*trackInfo[0].tempo,
-                max_tempo: trackInfo[0].tempo+0.2*trackInfo[0].tempo
+                min_key: (trackInfo[0].key+keyShift)%12,
+                max_key: (trackInfo[0].key+keyShift)%12,
+                min_mode: (trackInfo[0].mode+modeShift)%2,
+                max_mode: (trackInfo[0].mode+modeShift)%2,
+                min_tempo: bpmRange[0],
+                max_tempo: bpmRange[1]
             }
         }).catch((error) => {
             console.log(error);
@@ -115,16 +143,21 @@ const Similar = () => {
 
     useEffect(() => {
         async function waitForRecommendations() {
-            const recommendationsDataFromApi = await getRecommendations();
+            setIsRecommendedLoading(true);
+            let recommendationsDataFromApi = await getRecommendations(0, 0);
+            recommendationsDataFromApi = [...recommendationsDataFromApi, ...await getRecommendations(-1, 0)];
+            recommendationsDataFromApi = [...recommendationsDataFromApi, ...await getRecommendations(1, 0)];
+            recommendationsDataFromApi = [...recommendationsDataFromApi, ...await getRecommendations(0, 1)];
             const recommendedTracksInfoFromApi = await recommendedInfo(recommendationsDataFromApi);
             const result = recommendationsDataFromApi.map((track) => <SongItem key={track.id} trackData={track} tracksArrayData={recommendedTracksInfoFromApi} />)
             setRecommendedList(result);
+            setIsRecommendedLoading(false);
         }
 
-        if(track && trackInfo) {
+        if(track && trackInfo && filterSubmitted!==0) {
             waitForRecommendations();
         }
-    }, [trackInfo])
+    }, [trackInfo, filterSubmitted])
 
     function useQuery() {
         const { search } = useLocation();
@@ -136,16 +169,19 @@ const Similar = () => {
     let songId = query.get("id");
 
     const getSliderValues = (values) => {
-        console.log(values);
+        setBpmRange([values[0], values[2]]);
     }
 
     return (
         <div className="Similar">
-            <div className="button">
-                {!token ? 
-                    <a className='log-btn' href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
-                    : <button className='log-btn' onClick={logout}>Logout</button>
-                }
+            <div className="header">
+                <a href="/" className="link-to-home">Home</a>
+                <div className="button">
+                    {!token ? 
+                        <a className='log-btn' href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
+                        : <button className='log-btn' onClick={logout}>Logout</button>
+                    }
+                </div>
             </div>
             <div className="chosen-track">{token ? (isLoading ? <p>Loading...</p> : 
                 <SongItem trackData={track} tracksArrayData={trackInfo}/>) : 'Please log in'}
@@ -155,16 +191,37 @@ const Similar = () => {
                     <div className="slider">
                         <SliderComponent targetBpm={trackInfo[0].tempo} sendData={getSliderValues}/>
                     </div>
-                    <div className="keys">
-                        <button className="key-filter">{trackInfo[0].key}</button>
-                        <button className="key-filter"></button>
-                        <button className="key-filter"></button>
-                        <button className="key-filter"></button>
+                    <div className={advancedFiltersVisible ? "advanced-filters visible" : "advanced-filters invisible"}>
+                        <p>Type in an example of a track that has a style you're looking for:</p>
+                        <div className="artist-seed-input">
+                            <input type="text" placeholder="Artist" value={advancedFilters[0]} onChange={(e) => {
+                                let tempArray = [...advancedFilters];
+                                tempArray[0] = e.target.value;
+                                setAdvancedFilters(tempArray);
+                            }}/>
+                        </div>
+                        <div className="genre-seed-input">
+                            <input type="text" placeholder="Genre" value={advancedFilters[1]} onChange={(e) => {
+                                let tempArray = [...advancedFilters];
+                                tempArray[1] = e.target.value;
+                                setAdvancedFilters(tempArray);
+                            }}/>
+                        </div>
+                        <div className="track-seed-input">
+                            <input type="text" placeholder="Track" value={advancedFilters[2]} onChange={(e) => {
+                                let tempArray = [...advancedFilters];
+                                tempArray[2] = e.target.value;
+                                setAdvancedFilters(tempArray);
+                            }}/>
+                        </div>
                     </div>
-                    <button className="submit-btn">Find a mash-up!</button>
+                    <button className="submit-btn" onClick={() => setFilterSubmitted(prev => prev+1)}>Find a mash-up!</button>
+                    <button className={advancedFiltersVisible ? "show-advanced visible" : "show-advanced invisible"} onClick={() => setAdvancedFiltersVisible(prev => !prev)}>
+                        Advanced filters
+                    </button>
                 </div>}
             <div className="similar-found">
-                {recommendedList.length!==0 ? recommendedList : "Loading..."}
+                {isRecommendedLoading ? <p className="loading-similar">Loading...</p> : (recommendedList.length!==0 && recommendedList)}
             </div>
         </div>
     );

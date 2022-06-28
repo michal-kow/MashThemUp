@@ -20,7 +20,7 @@
     text-decoration: none;
     display: grid;
     grid-template-columns: 66% 17% 17%;
-    margin-right: 5%;
+    padding-right: 5%;
 }
 
 .song-item .link-to-song .img-with-data{
@@ -35,19 +35,32 @@
     padding-left: 40px;
 }
 
-.song-item p {
+.song-item .tempo,
+.song-item .key,
+.song-title {
     padding: 3px 0;
     display: block;
     font-size: 30px;
     font-weight: 500;
 }
 
-.key, .tempo {
+.key-container, .bpm-container {
     justify-self: center;
     align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .song-item .song-artist {
     font-weight: 200;
     font-size: 22px;
+}
+
+.tempo-label,
+.key-label {
+    font-weight: 300;
+    font-size: 16px;
+    color: rgb(160, 160, 160);
 }

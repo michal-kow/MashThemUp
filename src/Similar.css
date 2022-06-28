@@ -1,3 +1,26 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    margin: 0 40px;
+}
+
+.link-to-home {
+    font-size: 20px;
+    text-decoration: none;
+    background-color: rgb(44, 44, 44);
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: ease-in-out 200ms;
+    border: 1px solid var(--accent-clr);
+    color: var(--accent-clr);
+    border-radius: 50px;
+    padding: 10px 20px;
+    margin: 5px 5px;
+}
+
 .chosen-track {
     margin: 40px 0;
 }
@@ -19,31 +42,6 @@
     display: inline-block;
 }
 
-.keys {
-    display: flex;
-}
-
-button.key-filter {
-    background-color: rgb(32, 32, 32);
-    border: 1px solid var(--accent-clr);
-    border-radius: 10px;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 5px 15px;
-    margin: 5px 5px;
-    transition: 200ms ease-in-out;
-}
-
-button.key-filter:hover {
-    cursor: pointer;
-    background-color: rgba(19, 255, 31, 0.15);
-}
-
-button.key-filter:focus {
-    background-color: var(--accent-clr);
-    color: rgb(32, 32, 32);
-}
-
 .submit-btn {
     background-color: rgb(32, 32, 32);
     border: 1px solid var(--accent-clr);
@@ -53,10 +51,79 @@ button.key-filter:focus {
     padding: 10px 15px;
     margin: 5px 5px;
     transition: 200ms ease-in-out;
+    text-transform: uppercase;
 }
 
 .submit-btn:hover {
     cursor: pointer;
     background-color: var(--accent-clr);
     color: rgb(32, 32, 32);
+}
+
+.show-advanced {
+    visibility: hidden;
+    background-color: rgb(32, 32, 32);
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 10px 15px;
+    margin: 5px 5px;
+    transition: 200ms ease-in-out;
+}
+
+.show-advanced:focus {
+    outline: none;
+}
+
+.show-advanced.visible {
+    color: var(--accent-clr);
+}
+
+.show-advanced.visible:hover {
+    cursor: pointer;
+    color: rgb(100, 255, 107);
+}
+
+.show-advanced.invisible {
+    color: rgb(172, 172, 172);
+}
+
+.show-advanced.invisible:hover {
+    cursor: pointer;
+    color: #fff;
+}
+
+.advanced-filters p {
+    max-width: 300px;
+    position: absolute;
+    text-align: center;
+    transform: translateY(-250%);
+}
+
+.advanced-filters.visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+}
+
+.advanced-filters.invisible {
+    visibility: hidden;
+}
+
+.advanced-filters input {
+    border: 1px solid rgb(172, 172, 172);
+    background-color: rgb(32, 32, 32);
+    margin: 10px 10px;
+    padding: 5px 10px;
+    border-radius: 50px;
+}
+
+.loading-similar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
 }
