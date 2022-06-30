@@ -1,6 +1,6 @@
 {
-  "homepage": "http://michal-kow.github.io/mash-them-up/",
-  "name": "mash-them-up",
+  "homepage": "http://michal-kow.github.io/mash-app/",
+  "name": "mash-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
