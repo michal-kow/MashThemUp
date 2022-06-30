@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/mash-them-up/static/css/main.cabbb9a5.css",
-    "main.js": "/mash-them-up/static/js/main.10a08ba1.js",
-    "static/media/logo.png": "/mash-them-up/static/media/logo.e90bf7e157b4b947f07a.png",
+    "main.js": "/mash-them-up/static/js/main.0aec3342.js",
+    "static/media/logo.png": "/mash-them-up/static/media/logo.cb1f71801f139decc3fb.png",
     "index.html": "/mash-them-up/index.html",
     "main.cabbb9a5.css.map": "/mash-them-up/static/css/main.cabbb9a5.css.map",
-    "main.10a08ba1.js.map": "/mash-them-up/static/js/main.10a08ba1.js.map"
+    "main.0aec3342.js.map": "/mash-them-up/static/js/main.0aec3342.js.map"
   },
   "entrypoints": [
     "static/css/main.cabbb9a5.css",
-    "static/js/main.10a08ba1.js"
+    "static/js/main.0aec3342.js"
   ]
 }
