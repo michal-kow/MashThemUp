@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/mash-them-up/static/css/main.cabbb9a5.css",
-    "main.js": "/mash-them-up/static/js/main.0aec3342.js",
-    "static/media/logo.png": "/mash-them-up/static/media/logo.cb1f71801f139decc3fb.png",
-    "index.html": "/mash-them-up/index.html",
-    "main.cabbb9a5.css.map": "/mash-them-up/static/css/main.cabbb9a5.css.map",
-    "main.0aec3342.js.map": "/mash-them-up/static/js/main.0aec3342.js.map"
+    "main.css": "/mash-app/static/css/main.cabbb9a5.css",
+    "main.js": "/mash-app/static/js/main.a887b451.js",
+    "static/media/logo.png": "/mash-app/static/media/logo.cb1f71801f139decc3fb.png",
+    "index.html": "/mash-app/index.html",
+    "main.cabbb9a5.css.map": "/mash-app/static/css/main.cabbb9a5.css.map",
+    "main.a887b451.js.map": "/mash-app/static/js/main.a887b451.js.map"
   },
   "entrypoints": [
     "static/css/main.cabbb9a5.css",
-    "static/js/main.0aec3342.js"
+    "static/js/main.a887b451.js"
   ]
 }
