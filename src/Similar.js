@@ -175,7 +175,7 @@ const Similar = () => {
     return (
         <div className="Similar">
             <div className="header">
-                <a href="/" className="link-to-home">Home</a>
+                <a href="/mash-them-up" className="link-to-home">Home</a>
                 <div className="button">
                     {!token ? 
                         <a className='log-btn' href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
