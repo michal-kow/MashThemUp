@@ -22,6 +22,11 @@ body {
     position: relative;
 }
 
+.logo {
+    width: 8%;
+    margin-right: 50px;
+}
+
 .log-btn {
     text-decoration: none;
     border-radius: 50px;
@@ -33,6 +38,7 @@ body {
     transition: ease-in-out 200ms;
     border: 1px solid var(--accent-clr);
     color: var(--accent-clr);
+    white-space: nowrap;
 }
 
 .log-btn:hover {

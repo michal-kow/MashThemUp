@@ -114,6 +114,7 @@ const Home = () => {
         <div className="Home">
             <div className="form">
                 <form onSubmit={searchTracks}>
+                    <img src={require('./assets/logo.png')} className="logo"/>
                     <input className='text-input' placeholder="Enter the name of the song/artist" type="text" onChange={(e) => setSearchKey(e.target.value)}/>
                     <input className='submit-btn' type="submit" value="Search" />
                     {token && isSearchKeyEmpty && <div className='search-key-empty'>The input is empty</div>}

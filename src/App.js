@@ -10,6 +10,9 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="similar" element={<Similar/>} />
       </Routes>
+      <div className="footer">
+        <p>&copy; 2022 Michał Kowalik</p>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@
     margin: auto;
 }
 
-footer {
+.footer {
     max-width: 1200px;
     margin: auto;
     background-color: rgb(32, 32, 32);
@@ -16,7 +16,7 @@ footer {
     justify-content: center;
 }
 
-footer p {
+.footer p {
     font-weight: 200;
     font-size: 14px;
 }
