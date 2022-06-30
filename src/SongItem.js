@@ -66,7 +66,7 @@ const SongItem = props => {
 
     return (
         <li key={props.trackData.id} className="song-item">
-            <a className='link-to-song' href={"mash-them-up/similar?id="+props.trackData.id}>
+            <a className='link-to-song' href={"similar?id="+props.trackData.id}>
                 <div className="img-with-data">
                 <img src={props.trackData.album.images[0].url} alt="" />
                     <div className="title-artist">
