@@ -10,7 +10,7 @@ import SliderComponent from "./SliderComponent";
 const Similar = () => {
 
     const CLIENT_ID = "8c6c29c661d64277be6ed05d6d7845b0"
-    const REDIRECT_URI = "http://michal-kow.github.io/mash-them-up"
+    const REDIRECT_URI = "http://michal-kow.github.io/mash-app"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
 
@@ -175,7 +175,7 @@ const Similar = () => {
     return (
         <div className="Similar">
             <div className="header">
-                <a href="/mash-them-up" className="link-to-home">Home</a>
+                <a href="/mash-app" className="link-to-home">Home</a>
                 <div className="button">
                     {!token ? 
                         <a className='log-btn' href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
