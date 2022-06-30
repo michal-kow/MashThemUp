@@ -10,7 +10,7 @@ import SliderComponent from "./SliderComponent";
 const Similar = () => {
 
     const CLIENT_ID = "8c6c29c661d64277be6ed05d6d7845b0"
-    const REDIRECT_URI = "http://localhost:3000"
+    const REDIRECT_URI = "http://michal-kow.github.io/mash-them-up"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
 
