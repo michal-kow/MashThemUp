@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/mash-app/static/css/main.cabbb9a5.css",
-    "main.js": "/mash-app/static/js/main.a887b451.js",
+    "main.css": "/mash-app/static/css/main.8521fe28.css",
+    "main.js": "/mash-app/static/js/main.ed469e1c.js",
+    "static/media/spotify-logo.png": "/mash-app/static/media/spotify-logo.6bd0249da1ab77df5d77.png",
     "static/media/logo.png": "/mash-app/static/media/logo.cb1f71801f139decc3fb.png",
     "index.html": "/mash-app/index.html",
-    "main.cabbb9a5.css.map": "/mash-app/static/css/main.cabbb9a5.css.map",
-    "main.a887b451.js.map": "/mash-app/static/js/main.a887b451.js.map"
+    "main.8521fe28.css.map": "/mash-app/static/css/main.8521fe28.css.map",
+    "main.ed469e1c.js.map": "/mash-app/static/js/main.ed469e1c.js.map"
   },
   "entrypoints": [
-    "static/css/main.cabbb9a5.css",
-    "static/js/main.a887b451.js"
+    "static/css/main.8521fe28.css",
+    "static/js/main.ed469e1c.js"
   ]
 }
