@@ -5,7 +5,7 @@ This web app helps DJs to find songs that would make a geat mash-up. After choos
 The app is based on the Spotify API so it's needed to be logged in to a Spotify account in order to use the app.
 
 ## Searching for the song
-![image](https://user-images.githubusercontent.com/87365551/176665670-0abed936-d705-48e8-8454-b2edab3de161.png)
+![image](https://user-images.githubusercontent.com/87365551/176956136-44300b22-8eb6-49a2-906f-2130b8e270c4.png)
 
 ## Proposed tracks
-![image](https://user-images.githubusercontent.com/87365551/176665899-9f1237d9-2eb3-4c70-aacd-4cb41eb7abec.png)
+![image](https://user-images.githubusercontent.com/87365551/176956166-7ac16ff6-6123-45a0-a10c-595b2b242e88.png)
